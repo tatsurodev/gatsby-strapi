@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import { Button as BsButton } from "react-bootstrap"
-import "bootswatch/dist/litera/bootstrap.min.css"
 
 const Button = () => {
   return <StyledButton variant="danger">button</StyledButton>
