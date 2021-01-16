@@ -1,9 +1,14 @@
 import React from "react"
+import styled from "styled-components"
 import { Button as BsButton } from "react-bootstrap"
 import "bootswatch/dist/litera/bootstrap.min.css"
 
 const Button = () => {
-  return <BsButton variant="danger">button</BsButton>
+  return <StyledButton variant="danger">button</StyledButton>
 }
+
+const StyledButton = styled(BsButton)`
+  font-weight: bold;
+`
 
 export { Button }
