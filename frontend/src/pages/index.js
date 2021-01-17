@@ -1,11 +1,10 @@
 import React from "react"
 import Layout from "../components/Layout"
-import { Button } from "../components/common"
+import Hero from "../components/Hero"
 
 const IndexPage = () => (
   <Layout>
-    <h1>IndexPage</h1>
-    <Button variant="danger">button</Button>
+    <Hero />
   </Layout>
 )
 
