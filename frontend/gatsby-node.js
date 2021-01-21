@@ -10,6 +10,11 @@ exports.createPages = async ({ graphql, actions }) => {
           slug
         }
       }
+      reviews: allStrapiReviews {
+        nodes {
+          slug
+        }
+      }
     }
   `)
 
@@ -19,6 +24,15 @@ exports.createPages = async ({ graphql, actions }) => {
       component: path.resolve(`src/templates/portfolio.js`),
       context: {
         slug: portfolio.slug,
+      },
+    })
+  })
+  result.data.reviews.nodes.forEach(review => {
+    createPage({
+      path: `/reviews/${review.slug}`,
+      component: path.resolve(`src/templates/review.js`),
+      context: {
+        slug: review.slug,
       },
     })
   })
