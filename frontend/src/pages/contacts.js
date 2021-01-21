@@ -1,4 +1,5 @@
 import React from "react"
+import useContactValidation from "../hooks/useContactValidation"
 import Layout from "../components/Layout"
 import { Title } from "../components/common"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -9,10 +10,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 
 const ContactsPage = () => {
+  const initialState = {
+    name: "",
+    email: "",
+    message: "",
+  }
+  const { handleChange, handleSubmit, values } = useContactValidation(
+    initialState
+  )
+
   return (
     <Layout>
       <Title title="Contact Me" />
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <div className="input-group input-group-lg">
             <div className="input-group-prepend">
@@ -25,6 +35,8 @@ const ContactsPage = () => {
               name="name"
               className="form-control"
               placeholder="Name"
+              value={values.name}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -40,6 +52,8 @@ const ContactsPage = () => {
               name="email"
               className="form-control"
               placeholder="Email"
+              value={values.email}
+              onChange={handleChange}
             />
           </div>
         </div>
@@ -54,6 +68,8 @@ const ContactsPage = () => {
               className="form-control"
               name="message"
               placeholder="Message"
+              value={values.message}
+              onChange={handleChange}
             ></textarea>
           </div>
         </div>
