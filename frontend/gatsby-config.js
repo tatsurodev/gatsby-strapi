@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -31,7 +35,7 @@ module.exports = {
     {
       resolve: `gatsby-source-strapi`,
       options: {
-        apiURL: `http://localhost:1337`,
+        apiURL: process.env.GATSBY_STRAPI_API_URL,
         queryLimit: 1000,
         contentTypes: [`skills`, `portfolios`, `reviews`],
         singleTypes: [`about`],
