@@ -2,7 +2,7 @@ import React from "react"
 import useContactValidation from "../hooks/useContactValidation"
 import { contactValidation } from "../utils"
 import Layout from "../components/Layout"
-import { Title, Input } from "../components/common"
+import { Message, Title, Input } from "../components/common"
 import {
   faUser,
   faEnvelope,
@@ -33,6 +33,7 @@ const ContactsPage = () => {
 
   return (
     <Layout>
+      <Message />
       <Title title="Contact Me" />
       <form
         onSubmit={handleSubmit}
