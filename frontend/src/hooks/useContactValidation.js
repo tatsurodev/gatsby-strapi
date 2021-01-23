@@ -19,13 +19,25 @@ const useFormValidation = (initialState, validation) => {
       const noErrors = Object.keys(errors).length === 0
       const allTouched = Object.keys(touched).length === 3
       if (noErrors && allTouched) {
-        navigate("/contacts")
-        // 全stateを初期化
-        setValues(initialState)
-        setTouched({})
-        setValidated({})
-        setErrors({})
-        setLoading(false)
+        let form = document.querySelector("form[data-netlify='true']")
+        fetch("/", {
+          method: "post",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encode({
+            "form-name": form.getAttribute("name"),
+            ...values,
+          }),
+        })
+          .then(() => {
+            // 全stateを初期化
+            setValues(initialState)
+            setTouched({})
+            setValidated({})
+            setErrors({})
+            setLoading(false)
+            navigate("/contacts?success=true")
+          })
+          .catch(error => alert(error))
       } else {
         // errorありで、loadingだけfalseに
         setLoading(false)
@@ -91,6 +103,12 @@ const useFormValidation = (initialState, validation) => {
         [event.target.name]: true,
       }))
     }
+  }
+
+  const encode = data => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&")
   }
 
   return {
