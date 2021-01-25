@@ -1,5 +1,7 @@
 import React from "react"
 import { createGlobalStyle } from "styled-components"
+import { MDXProvider } from "@mdx-js/react"
+import { H1 } from "./src/components/blogs"
 
 const GlobalStyle = createGlobalStyle`
 /* Variables */
@@ -17,11 +19,15 @@ a:hover {
 }
 `
 
+const components = {
+  h1: H1,
+}
+
 export const wrapRootElement = ({ element }) => {
   return (
     <>
       <GlobalStyle />
-      {element}
+      <MDXProvider components={components}>{element}</MDXProvider>
     </>
   )
 }
