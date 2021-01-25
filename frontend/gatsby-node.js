@@ -15,6 +15,13 @@ exports.createPages = async ({ graphql, actions }) => {
           slug
         }
       }
+      allMdx {
+        nodes {
+          frontmatter {
+            slug
+          }
+        }
+      }
     }
   `)
 
@@ -33,6 +40,15 @@ exports.createPages = async ({ graphql, actions }) => {
       component: path.resolve(`src/templates/review.js`),
       context: {
         slug: review.slug,
+      },
+    })
+  })
+  result.data.allMdx.nodes.forEach(({ frontmatter: { slug } }) => {
+    createPage({
+      path: `/blogs/${slug}`,
+      component: path.resolve(`src/templates/blog.js`),
+      context: {
+        slug,
       },
     })
   })
