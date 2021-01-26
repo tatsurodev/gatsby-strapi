@@ -1,6 +1,5 @@
 import React from "react"
 import Layout from "../components/Layout"
-import styled from "styled-components"
 import Image from "gatsby-image"
 import { graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
@@ -10,11 +9,12 @@ const BlogTemplate = ({ data }) => {
     mdx: {
       frontmatter: { title, tags, image, date },
       body,
+      tableOfContents: { items },
     },
   } = data
 
   return (
-    <Layout>
+    <Layout items={items}>
       <article>
         {image && <Image fluid={image.childImageSharp.fluid} />}
         <div>
@@ -49,6 +49,7 @@ export const query = graphql`
         }
       }
       body
+      tableOfContents
     }
   }
 `

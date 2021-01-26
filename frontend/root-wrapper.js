@@ -10,6 +10,10 @@ const GlobalStyle = createGlobalStyle`
 }
 
 /* Global Styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--grey);
 }
