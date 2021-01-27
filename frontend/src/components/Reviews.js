@@ -16,8 +16,8 @@ const Reviews = ({ reviews: reviewsProp, title }) => {
       <Title title={title} />
       {pathname === "/reviews" && (
         <TypeButtons
-          reviews={reviewsProp}
-          setReviews={setReviews}
+          instances={reviewsProp}
+          setInstances={setReviews}
           setBackToAll={setBackToAll}
         />
       )}

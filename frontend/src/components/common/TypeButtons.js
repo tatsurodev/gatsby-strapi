@@ -1,37 +1,51 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 
-const TypeButtons = ({ reviews, setReviews, setBackToAll }) => {
+const TypeButtons = ({ instances, setInstances, setBackToAll }) => {
   const [index, setIndex] = useState(0)
-  const types = [
-    "all",
-    ...new Set(
-      reviews.map(review => {
-        return review.type
-      })
-    ),
-  ]
-  // const types = ["all", "udemy", "book"]
-  const showReviews = (type, typeIndex) => {
-    setIndex(typeIndex)
-    if (type === "all") {
+  let filters = []
+  let duplicatedFilters = []
+
+  instances.map(instance => {
+    // type propがあればinstancesとしてfilters用の配列作成
+    if (instance.type) {
+      duplicatedFilters.push(instance.type)
+    }
+    //   // frontmatter propがあればblogsとしてfilters用の配列作成
+    if (instance.frontmatter && instance.frontmatter.tags) {
+      instance.frontmatter.tags.map(tag => duplicatedFilters.push(tag))
+    }
+  })
+  // 重複排除
+  filters = ["all", ...new Set(duplicatedFilters)]
+
+  const showInstances = (filter, filterIndex) => {
+    setIndex(filterIndex)
+    if (filter === "all") {
       setBackToAll()
     } else {
-      const tempReviews = reviews.filter(review => review.type === type)
-      setReviews(tempReviews)
+      const tempInstances = instances.filter(instance => {
+        if (instance.type) {
+          return instance.type === filter
+        }
+        if (instance.frontmatter && instance.frontmatter.tags) {
+          return instance.frontmatter.tags.includes(filter)
+        }
+      })
+      setInstances(tempInstances)
     }
   }
 
   return (
     <Wrapper>
-      {types.map((type, typeIndex) => {
+      {filters.map((filter, filterIndex) => {
         return (
           <button
-            key={typeIndex}
-            className={index === typeIndex ? "active" : undefined}
-            onClick={() => showReviews(type, typeIndex)}
+            key={filterIndex}
+            className={index === filterIndex ? "active" : undefined}
+            onClick={() => showInstances(filter, filterIndex)}
           >
-            {type}
+            {filter}
           </button>
         )
       })}
