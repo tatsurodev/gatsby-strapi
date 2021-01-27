@@ -3,11 +3,13 @@ import Layout from "../components/Layout"
 import Hero from "../components/Hero"
 import Portfolios from "../components/Portfolios"
 import Reviews from "../components/Reviews"
+import Blogs from "../components/Blogs"
 
 const IndexPage = ({ data }) => {
   const {
     allStrapiPortfolios: { nodes: portfolios },
     allStrapiReviews: { nodes: reviews },
+    allMdx: { nodes: blogs },
   } = data
 
   return (
@@ -18,6 +20,7 @@ const IndexPage = ({ data }) => {
         reviews={reviews}
         title="Featured Reviews of Udemy Courses and Books"
       />
+      <Blogs blogs={blogs} title="Recent Blogs" />
     </Layout>
   )
 }
@@ -82,6 +85,26 @@ export const query = graphql`
           id
           name
           slug
+        }
+      }
+    }
+    allMdx(sort: { fields: frontmatter___date, order: DESC }, limit: 6) {
+      nodes {
+        id
+        excerpt
+        frontmatter {
+          title
+          author
+          tags
+          date(formatString: "MMMM, Do, YYYY")
+          slug
+          image {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
         }
       }
     }
