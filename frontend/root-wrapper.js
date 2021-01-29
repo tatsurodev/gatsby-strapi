@@ -18,7 +18,7 @@ body {
   color: var(--grey);
 }
 
-a:hover {
+a, a:visited, a:hover, a:active {
   text-decoration: none;
 }
 `
