@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import styled from "styled-components"
 import { Link } from "gatsby"
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -12,14 +13,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 
 const Header = () => {
+  // navbarのtogglerによってnavbarのcolor変更
+  const [isNavItemDark, setIsNavItemDark] = useState(false)
+
   return (
-    <header>
-      <Navbar variant="dark" bg="info" expand="lg" collapseOnSelect>
+    <StyledHeader>
+      <Navbar
+        bg="transparent"
+        expand="md"
+        collapseOnSelect
+        variant={isNavItemDark ? "light" : "dark"}
+      >
         <Container>
           <Link to="/">
-            <Navbar.Brand>tatsuro.dev</Navbar.Brand>
+            <Navbar.Brand className="text-muted text-capitalize">
+              &lt;Tatsuro.Dev /&gt;
+            </Navbar.Brand>
           </Link>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            onClick={() => setIsNavItemDark(!isNavItemDark)}
+          />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               <Nav.Item as="li">
@@ -52,8 +66,26 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </header>
+    </StyledHeader>
   )
 }
+
+const StyledHeader = styled.header`
+  position: relative;
+
+  ::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 30%;
+    right: 0;
+    bottom: 0;
+    background: var(--info);
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+`
 
 export default Header

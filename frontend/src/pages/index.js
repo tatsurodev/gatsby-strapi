@@ -1,9 +1,10 @@
 import React from "react"
-import Layout from "../components/Layout"
+import Header from "../components/Header"
 import Hero from "../components/Hero"
 import Portfolios from "../components/Portfolios"
 import Reviews from "../components/Reviews"
 import Blogs from "../components/Blogs"
+import Footer from "../components/Footer"
 
 const IndexPage = ({ data }) => {
   const {
@@ -13,15 +14,14 @@ const IndexPage = ({ data }) => {
   } = data
 
   return (
-    <Layout>
+    <>
+      <Header />
       <Hero />
       <Portfolios portfolios={portfolios} title="Featured Portfolios" />
-      <Reviews
-        reviews={reviews}
-        title="Featured Reviews of Udemy Courses and Books"
-      />
+      <Reviews reviews={reviews} title="Featured Reviews" />
       <Blogs blogs={blogs} title="Recent Blogs" />
-    </Layout>
+      <Footer />
+    </>
   )
 }
 
@@ -40,7 +40,7 @@ export const query = graphql`
           }
         }
         slug
-        date(formatString: "YYYY, MM")
+        date(formatString: "MMMM, YYYY")
         websites {
           title
           github
@@ -73,7 +73,7 @@ export const query = graphql`
           }
         }
         slug
-        date(formatString: "YYYY, MM")
+        date(formatString: "MMMM, YYYY")
         websites {
           id
           title

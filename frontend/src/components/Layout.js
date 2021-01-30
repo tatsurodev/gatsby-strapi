@@ -8,13 +8,7 @@ const Layout = ({ children, items }) => {
   return (
     <>
       <Header />
-      <div className="row">
-        <div className="col-md-3">left column</div>
-        <div className="col-md-6">
-          <main>{children}</main>
-        </div>
-        <div className="col-md-3">{items && <Toc items={items} />}</div>
-      </div>
+      {children}
       <Footer />
     </>
   )
