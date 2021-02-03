@@ -1,19 +1,37 @@
 import React from "react"
-import Layout from "../components/Layout"
 import { graphql } from "gatsby"
-import Blogs from "../components/Blogs"
+import useFilter from "../hooks/useFilter"
+import { ArticlesPage } from "../components/common"
 
 const BlogsPage = ({ data }) => {
   const {
     allMdx: { nodes: blogs },
   } = data
+  // tags取得
+  let duplicatedTags = []
+  blogs.map(blog => {
+    blog.frontmatter.tags.map(tag => duplicatedTags.push(tag))
+  })
+  const tags = [...new Set(duplicatedTags)]
+
+  const prefix = "blogs"
+
+  const {
+    nestedInstances,
+    selectedTags,
+    handleChange,
+    resetInstances,
+  } = useFilter(blogs)
 
   return (
-    <Layout>
-      <section>
-        <Blogs blogs={blogs} title="all blogs" />
-      </section>
-    </Layout>
+    <ArticlesPage
+      nestedInstances={nestedInstances}
+      prefix={prefix}
+      tags={tags}
+      selectedTags={selectedTags}
+      handleChange={handleChange}
+      resetInstances={resetInstances}
+    />
   )
 }
 

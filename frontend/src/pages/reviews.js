@@ -1,19 +1,40 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../components/Layout"
-import Reviews from "../components/Reviews"
+import { ArticlesPage } from "../components/common"
+import useFilter from "../hooks/useFilter"
 
 const ReviewsPage = ({
   data: {
     allStrapiReviews: { nodes: reviews },
   },
 }) => {
+  // tags取得
+  let duplicatedTags = []
+  reviews.map(review => {
+    review.tags.map(tag => {
+      if (tag.name) {
+        duplicatedTags.push(tag.name)
+      }
+    })
+  })
+  const tags = [...new Set(duplicatedTags)]
+  const prefix = "reviews"
+  const {
+    nestedInstances,
+    selectedTags,
+    handleChange,
+    resetInstances,
+  } = useFilter(reviews)
+
   return (
-    <Layout>
-      <section>
-        <Reviews reviews={reviews} title="all reviews" page />
-      </section>
-    </Layout>
+    <ArticlesPage
+      nestedInstances={nestedInstances}
+      prefix={prefix}
+      tags={tags}
+      selectedTags={selectedTags}
+      handleChange={handleChange}
+      resetInstances={resetInstances}
+    />
   )
 }
 
@@ -36,7 +57,7 @@ export const query = graphql`
           }
         }
         slug
-        date(formatString: "YYYY, MM")
+        date(formatString: "MMMM, YYYY")
         websites {
           id
           title
