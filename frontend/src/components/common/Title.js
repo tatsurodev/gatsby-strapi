@@ -2,10 +2,10 @@ import React from "react"
 import styled from "styled-components"
 import PropTypes from "prop-types"
 
-const Title = ({ title }) => {
+const Title = ({ title, className }) => {
   return (
-    <StyledTitle>
-      <h2 className="text-capitalize">{title}</h2>
+    <StyledTitle className={className}>
+      <h2>{title}</h2>
       <hr />
     </StyledTitle>
   )
@@ -14,6 +14,7 @@ const Title = ({ title }) => {
 const StyledTitle = styled.div`
   h2 {
     font-size: 3vw;
+    text-transform: capitalize;
   }
 `
 
