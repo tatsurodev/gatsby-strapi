@@ -29,11 +29,19 @@ const Hero = () => {
       <div className="heading">
         <h1 className="leading">I'm Tatsuro</h1>
         <div className="sub-leading">
-          I love coding with
-          <FontAwesomeIcon className="ml-2" icon={faCheckSquare} /> Laravel
-          <FontAwesomeIcon className="ml-2" icon={faCheckSquare} /> Vue
-          <FontAwesomeIcon className="ml-2" icon={faCheckSquare} /> React
-          <FontAwesomeIcon className="ml-2" icon={faCheckSquare} /> Docker
+          <div>I love coding with</div>
+          <div className="icon">
+            <FontAwesomeIcon icon={faCheckSquare} /> Laravel
+          </div>
+          <div className="icon">
+            <FontAwesomeIcon icon={faCheckSquare} /> Vue
+          </div>
+          <div className="icon">
+            <FontAwesomeIcon icon={faCheckSquare} /> React
+          </div>
+          <div className="icon">
+            <FontAwesomeIcon icon={faCheckSquare} /> Docker
+          </div>
         </div>
       </div>
       <div className="image">
@@ -60,7 +68,6 @@ const circleRotate = keyframes`
 const StyledHero = styled.div`
   height: 100vh;
   position: relative;
-  /* background: var(--info); */
 
   ::before {
     content: "";
@@ -85,8 +92,10 @@ const StyledHero = styled.div`
 
     .sub-leading {
       font-size: 1.5vw;
-      /* background-image: linear-gradient(to right, var(--info), var(--light)); */
-      /* clip-path: polygon(0 0, 100% 20%, 100% 80%, 0 100%); */
+
+      .icon {
+        margin-left: 0.2rem;
+      }
     }
   }
 
@@ -105,7 +114,6 @@ const StyledHero = styled.div`
         height: 25vw;
         width: 25vw;
         position: absolute !important;
-        /* mix-blend-mode: multiply; */
       }
 
       .hero {
@@ -134,4 +142,4 @@ const StyledHero = styled.div`
   }
 `
 
-export default Hero
+export { Hero }
