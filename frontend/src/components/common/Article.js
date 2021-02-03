@@ -6,10 +6,9 @@ import { Link } from "gatsby"
 import { Tags, Date } from "."
 import { getNoDuplicateTags } from "../../utils"
 
-const Article = ({ article, prefix }) => {
+const Article = ({ article, prefix, className }) => {
   // blog時の処理
   if (Object.keys(article).includes("frontmatter")) {
-    console.log("blog")
     var {
       frontmatter: { title, slug, image, date, tags },
     } = article
@@ -19,18 +18,16 @@ const Article = ({ article, prefix }) => {
     var tags = []
     // review時の処理
     if (Object.keys(article).includes("type")) {
-      console.log("review")
       article.tags.map(({ name }) => tags.push(name))
     }
     // portfolio時の処理
     else {
-      console.log("portfolio")
       tags = getNoDuplicateTags(article.websites)
     }
   }
 
   return (
-    <StyledArticle className="col-md-6">
+    <StyledArticle className={className}>
       <div className="article">
         <Link to={`/${prefix}/${slug}`}>
           <Image
@@ -39,10 +36,11 @@ const Article = ({ article, prefix }) => {
           />
           <h3 className="article-title">{title}</h3>
         </Link>
-        <hr />
         <div className="article-footer">
-          <Tags tags={tags} />
-          <Date date={date} />
+          <div className="container">
+            <Tags tags={tags} />
+            <Date date={date} />
+          </div>
         </div>
       </div>
     </StyledArticle>
@@ -51,6 +49,7 @@ const Article = ({ article, prefix }) => {
 
 const StyledArticle = styled.div`
   margin: 1rem 0;
+
   .article {
     border: 1px solid var(--light);
     border-radius: 5px;
@@ -73,7 +72,7 @@ const StyledArticle = styled.div`
     }
 
     .article-footer {
-      margin: 1rem;
+      margin: 1rem 0;
     }
   }
 `
