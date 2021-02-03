@@ -1,9 +1,6 @@
 import React from "react"
 import Header from "../components/Header"
-import Hero from "../components/Hero"
-import Portfolios from "../components/Portfolios"
-import Reviews from "../components/Reviews"
-import Blogs from "../components/Blogs"
+import { Hero, FeaturedArticles } from "../components/home"
 import Footer from "../components/Footer"
 
 const IndexPage = ({ data }) => {
@@ -17,9 +14,9 @@ const IndexPage = ({ data }) => {
     <>
       <Header />
       <Hero />
-      <Portfolios portfolios={portfolios} title="Featured Portfolios" />
-      <Reviews reviews={reviews} title="Featured Reviews" />
-      <Blogs blogs={blogs} title="Recent Blogs" />
+      <FeaturedArticles articles={portfolios} className="info" />
+      <FeaturedArticles articles={reviews} className="white" />
+      <FeaturedArticles articles={blogs} className="info" />
       <Footer />
     </>
   )
