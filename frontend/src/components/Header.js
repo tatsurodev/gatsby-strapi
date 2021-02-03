@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { Link } from "gatsby"
+import { useLocation } from "@reach/router"
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -15,24 +16,30 @@ import {
 const Header = () => {
   // navbarのtogglerによってnavbarのcolor変更
   const [isNavItemDark, setIsNavItemDark] = useState(false)
+  // homeとそれ以外の時でbackground-colorを変更
+  const isHome = useLocation().pathname === "/"
 
   return (
     <StyledHeader>
       <Navbar
-        bg="transparent"
+        bg={isHome ? "transparent" : "info"}
         expand="md"
         collapseOnSelect
         variant={isNavItemDark ? "light" : "dark"}
       >
         <Container>
           <Link to="/">
-            <Navbar.Brand className="text-muted text-capitalize">
+            <Navbar.Brand
+              className={`text-capitalize${isHome ? " text-muted" : ""}`}
+            >
               &lt;Tatsuro.Dev /&gt;
             </Navbar.Brand>
           </Link>
           <Navbar.Toggle
             aria-controls="basic-navbar-nav"
-            onClick={() => setIsNavItemDark(!isNavItemDark)}
+            onClick={() => {
+              isHome && setIsNavItemDark(!isNavItemDark)
+            }}
           />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
