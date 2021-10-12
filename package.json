@@ -1,0 +1,16 @@
+{
+  "name": "tatsuro.dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:client": "npm run --prefix frontend develop",
+    "dev:server": "npm run --prefix backend develop",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "author": "tatsurodev",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
