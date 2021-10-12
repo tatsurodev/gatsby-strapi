@@ -432,5 +432,23 @@ th {
   text-align: left;
   font-weight: bold;
 }
+/*================================================
+
+Global Styles
+
+================================================*/
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-primary);
+}
+
+body {
+  color: var(--bs-dark);
+}
+
+a, a:visited, a:hover, a:active {
+  text-decoration: none;
+}
 `
+
 export default GlobalStyle
