@@ -40,8 +40,8 @@ module.exports = {
       resolve: 'gatsby-source-strapi',
       options: {
         apiURL: process.env.GATSBY_STRAPI_API_URL,
-        collectionTypes: [],
-        singleTypes: [],
+        collectionTypes: [`skills`],
+        singleTypes: [`about`],
         queryLimit: 1000,
       },
     },
@@ -56,7 +56,12 @@ module.exports = {
         // generate breadcrumbs for (see below for details).
         excludes: [`**/404/**`],
         // crumbLabelUpdates: optional, update specific crumbLabels in the path
-        crumbLabelUpdates: [],
+        crumbLabelUpdates: [
+          {
+            pathname: '/about',
+            crumbLabel: 'About',
+          },
+        ],
         // trailingSlashes: optional, will add trailing slashes to the end
         // of crumb pathnames. default is false
         trailingSlashes: false,
