@@ -60,6 +60,8 @@ module.exports = {
           {
             pathname: '/about',
             crumbLabel: 'About',
+            pathname: '/contacts',
+            crumbLabel: 'Contacts',
           },
         ],
         // trailingSlashes: optional, will add trailing slashes to the end
