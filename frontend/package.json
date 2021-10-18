@@ -11,6 +11,7 @@
     "bootswatch": "^5.1.2",
     "gatsby": "^3.13.1",
     "gatsby-plugin-breadcrumb": "^12.1.1",
+    "gatsby-plugin-disqus": "^1.2.3",
     "gatsby-plugin-image": "^1.13.0",
     "gatsby-plugin-manifest": "^3.13.0",
     "gatsby-plugin-offline": "^4.13.0",
