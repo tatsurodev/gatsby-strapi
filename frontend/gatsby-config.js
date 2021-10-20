@@ -75,5 +75,11 @@ module.exports = {
         shortname: process.env.GATSBY_DISQUS_SHORTNAME,
       },
     },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [{ resolve: 'gatsby-remark-images' }],
+      },
+    },
   ],
 }
