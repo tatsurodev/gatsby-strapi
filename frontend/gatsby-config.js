@@ -18,6 +18,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,
+    `gatsby-plugin-smoothscroll`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -78,7 +79,19 @@ module.exports = {
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        gatsbyRemarkPlugins: [{ resolve: 'gatsby-remark-images' }],
+        gatsbyRemarkPlugins: [
+          { resolve: 'gatsby-remark-images' },
+          {
+            resolve: `gatsby-remark-autolink-headers`,
+            options: {
+              offsetY: `50`,
+              icon: false,
+              className: `toc-headings`,
+              maintainCase: false,
+              removeAccents: true,
+            },
+          },
+        ],
       },
     },
     // blogs用mdx fileをpages folder以外で認識させる

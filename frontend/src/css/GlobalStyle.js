@@ -449,6 +449,14 @@ body {
 a, a:visited, a:hover, a:active {
   text-decoration: none;
 }
+/*================================================
+
+Global Styles
+
+================================================*/
+html {
+  scroll-behavior: smooth;
+}
 `
 
 export default GlobalStyle
