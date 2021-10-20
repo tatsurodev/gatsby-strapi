@@ -1,2 +1,5 @@
 node_modules/
 backend/
+
+# blogs記事のgithub sample fileは除外
+frontend/src/blogs/**/github

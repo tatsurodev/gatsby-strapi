@@ -81,5 +81,13 @@ module.exports = {
         gatsbyRemarkPlugins: [{ resolve: 'gatsby-remark-images' }],
       },
     },
+    // blogs用mdx fileをpages folder以外で認識させる
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `blogs`,
+        path: `${__dirname}/src/blogs`,
+      },
+    },
   ],
 }
