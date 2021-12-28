@@ -10,7 +10,7 @@ const AboutPage = ({ data, pageContext }) => {
   } = data
 
   let skillsByTypes = {}
-  skills.map(skill => {
+  skills.forEach(skill => {
     if (typeof skillsByTypes[skill.type] === 'undefined') {
       skillsByTypes[skill.type] = [skill]
     } else {
@@ -24,7 +24,7 @@ const AboutPage = ({ data, pageContext }) => {
         {key}
       </h3>
     )
-    skillsByTypes[key].map(skill => {
+    skillsByTypes[key].forEach(skill => {
       skillsJSX.push(
         <div className="col-md-6 skill" key={skill.tag.name}>
           <div className="skill-name">
