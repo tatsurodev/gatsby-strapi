@@ -41,7 +41,7 @@ module.exports = {
       resolve: 'gatsby-source-strapi',
       options: {
         apiURL: process.env.GATSBY_STRAPI_API_URL,
-        collectionTypes: [`skills`, `portfolios`, `reviews`],
+        collectionTypes: [`skills`, `portfolios`, `reviews`, `tags`],
         singleTypes: [`about`],
         queryLimit: 1000,
       },
