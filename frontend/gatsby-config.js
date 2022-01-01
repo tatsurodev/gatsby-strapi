@@ -1,9 +1,12 @@
 module.exports = {
+  flags: {
+    DEV_SSR: false,
+  },
   siteMetadata: {
-    title: `Gatsby Default Starter`,
+    title: `tatsuro.dev`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    author: `tatsurodev`,
+    siteUrl: `https://tatsuro.dev/`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
