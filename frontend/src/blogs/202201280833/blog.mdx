@@ -1,0 +1,187 @@
+---
+title: webpack で環境変数を設定する 2 つの方法 | dotenv vs dotenv-webpack
+slug: how-to-use-env-variable-with-webpack
+image: ./images/webpack.png
+date: 2022-01-28
+author: tatsurodev
+tags: [webpack]
+---
+
+# 環境変数の設定方法
+
+webpack で環境変数を設定する際、2 通りの方法があるようです。
+まず、1 つ目が.env で設定した環境変数を dotenv で読み込み DefinePlugin で定数を作って利用する方法、もう 1 つが先程の流れを dotenv-webpack にやってもらうという方法。
+
+# TL;DR
+
+結論から言うと dotenv-webpack を使った方が早いと思いました。
+一度それぞれの方法を実際に見てみましょう。
+
+# dotenv で環境変数を設定する
+
+こちらの手法は.evn file を dotenv で利用するまでは極めて一般的ですが、webpack でその環境変数を利用する時に再度定義する必要があり、少しクセがあります。
+
+## file 構成
+
+まず、file 構成から見てみましょう。
+
+```bash
+tree -a -I node_modules # -aでhidden fileも表示、-I node_modulesでnode_modules directoryはtree構造から除外
+.
+├── dist
+│   ├── bundle.js
+│   └── index.html
+├── .env
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── src
+│   └── app.js
+└── webpack.config.js
+```
+
+## package.json
+
+使用する package を install します。
+
+- `dotenv` : `.env` の環境変数を読み込む。
+- `webpack` : js の bundle に使用。
+- `webpack-cli` : command line から `webpack` と打ち込んで webpack を操作します。
+
+```bash
+npm i dotenv webpack webpack-cli
+```
+
+## .env, .gitignore
+
+webpack.config.js と同じ階層に環境変数を書き込む`.env` file を設置。git 等の file 管理 system を使用している場合、sensitive data を格納する.env が晒されてしまうため、`.gitignore` で.env が管理されないようにする。
+
+### .env
+
+```bash
+API_KEY=thisisapikey
+```
+
+### .gitignore
+
+```bash
+node_modules/
+.env
+```
+
+## index.html
+
+webpack で bundle した file を読み込んでいます。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dotenv test</title>
+  </head>
+  <body>
+    <!-- webpackでbundleしたfileを読み込む -->
+    <script src="./bundle.js"></script>
+  </body>
+</html>
+```
+
+## app.js
+
+webpack で bundle するテスト用の file。環境変数に access できるかチェックします。
+
+```javascript
+console.log(process.env.API_KEY)
+```
+
+## webpack.config.js
+
+最後に一番重要な webpack の設定 file です。最初の 3 つの`mode`, `entry`, `output`はいつもどおり必須です。
+`dotenv.config`で環境変数に`process.env`で access できるようにします。
+そして最後に`webpack.DefinePlugin`の部分で bundle 時に環境変数を使用できるよう定数を定義しています。今回の例では環境変数が 1 つのみですが、多いとかなり面倒です。このへんが冗長に感じるところです。
+
+```javascript
+const path = require('path')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
+
+// dotenvの設定、.env fileの場所等のoptionをconfigの引数に指定
+dotenv.config()
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      // 環境変数とその値をkey: valueで指定
+      'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+      'process.env.OTHER_KEY_BLAH_BLAH': JSON.stringify(
+        process.env.OTHER_KEY_BLAH_BLAH
+      ),
+      // 以下.evnのkey:valueを永遠繰り返し
+    }),
+  ],
+}
+```
+
+# dotenv-webpack で環境変数を設定する
+
+dotenv-webpack では、先程の`webpack.DefinePlugin`の定数定義の処理を plugin が自動的に追加してくれます、便利ですよね。
+
+## file 構成
+
+先ほどと違うのは`package.json`と`webpack.config.js`のみです。ほかはすべて同一の file です。
+
+```bash
+tree -a -I node_modules
+.
+├── dist
+│   ├── bundle.js
+│   └── index.html
+├── .env
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── src
+│   └── app.js
+└── webpack.config.js
+```
+
+## package.json
+
+`dotenv-webpack` は `dotenv` と `webpack.DefinePlugin` を wrap したもののようなので dotenv を install する必要はありません。
+
+```bash
+npm i dotenv-webpack webpack webpack-cli
+
+```
+
+## webpack.config.js
+
+```javascript
+const path = require('path')
+const Dotenv = require('dotenv-webpack')
+
+module.exports = {
+  mode: 'development',
+  entry: './src/app.js',
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  // 先ほどとの違いはここ、pluginにdotenv-webpackを指定するのみ
+  plugins: [new Dotenv()],
+}
+```
+
+# 使用したコード
+
+今回使用したコードは[こちら](https://github.com/tatsurodev/how-to-use-env-variable-with-webpack)。
+dotenv と dotenv-webpack の具体的な差異は[こちら](https://blog.hey3.dev/posts/dotenv-webpack-and-define-plugin)が参考になります。
