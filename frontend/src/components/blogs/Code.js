@@ -6,7 +6,7 @@ const Code = ({ children }) => {
 }
 
 const StyledCode = styled.code`
-  background-color: #f5f5f5;
+  background-color: ${({ theme }) => theme.secondaryBg};
   border-radius: 5px;
   color: #f14668;
   font-size: 0.9rem;
