@@ -7,7 +7,7 @@ import { Link } from 'gatsby'
 import { Tags, Date, CommentsCount } from '.'
 import { getNoDuplicateTags } from '../../utils'
 
-const Article = ({ article, prefix, className }) => {
+const Article = ({ article, prefix }) => {
   var title, slug, image, date, tags
   // blog時の処理
   if (Object.keys(article).includes('frontmatter')) {
@@ -22,7 +22,7 @@ const Article = ({ article, prefix, className }) => {
     tags = []
     // review時の処理
     if (Object.keys(article).includes('type')) {
-      article.tags.map(({ name }) => tags.push(name))
+      article.tags.map(({ slug }) => tags.push(slug))
     }
     // portfolio時の処理
     else {
@@ -41,70 +41,60 @@ const Article = ({ article, prefix, className }) => {
   // console.log('article url', `${location.href}/${slug}`)
 
   return (
-    <StyledArticle className={className}>
-      <div className="article">
-        <Link to={`/${prefix}/${slug}`}>
-          <GatsbyImage
-            image={getImage(image)}
-            alt={title}
-            className="article-image"
+    <StyledArticle>
+      <Link to={`/${prefix}/${slug}`}>
+        <StyledGatsbyImage image={getImage(image)} alt={title} />
+        <StyledH3>{title}</StyledH3>
+      </Link>
+      <StyledArticleFooter>
+        <div className="container">
+          <Date date={date} />
+          <Tags tags={tags} />
+          <CommentsCount
+            id={commentId}
+            title={title}
+            url={`${location.href}/${slug}`}
           />
-          <h3 className="article-title">{title}</h3>
-        </Link>
-        <div className="article-footer">
-          <div className="container">
-            <Date date={date} />
-            <Tags tags={tags} />
-            <CommentsCount
-              id={commentId}
-              title={title}
-              url={`${location.href}/${slug}`}
-            />
-          </div>
         </div>
-      </div>
+      </StyledArticleFooter>
     </StyledArticle>
   )
 }
 
 const StyledArticle = styled.div`
   margin: 1rem 0;
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  border-radius: 5px;
+  background: ${({ theme }) => theme.secondaryBg};
+`
 
-  .article {
-    position: relative;
-    border: 1px solid var(--light);
-    border-radius: 5px;
-    background: #f8f9fa;
+const StyledGatsbyImage = styled(GatsbyImage)`
+  width: 100%;
+  border-radius: 5px 5px 0 0;
 
-    .article-title {
-      height: 4rem;
-      color: var(--gray);
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-      font-size: 1.4rem;
-      line-height: 1.4;
-      margin: 1rem;
-    }
-
-    .article-image {
-      width: 100%;
-      border-radius: 5px 5px 0 0;
-
-      @media (min-width: 768px) {
-        height: 12rem;
-      }
-
-      @media (min-width: 992px) {
-        height: 15rem;
-      }
-    }
-
-    .article-footer {
-      padding-bottom: 1rem;
-    }
+  @media (min-width: 768px) {
+    height: 12rem;
   }
+
+  @media (min-width: 992px) {
+    height: 15rem;
+  }
+`
+
+const StyledH3 = styled.h3`
+  height: 4rem;
+  color: ${({ theme }) => theme.headings};
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  margin: 1rem;
+`
+
+const StyledArticleFooter = styled.div`
+  padding-bottom: 1rem;
 `
 
 Article.propTypes = {
