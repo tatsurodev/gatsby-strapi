@@ -7,10 +7,10 @@ const EyeCatch = ({ image, url }) => {
     <StyledEyeCatch>
       {image && url ? (
         <a href={url} target="_blank" rel="noreferrer">
-          <GatsbyImage image={getImage(image)} alt="image" className="image" />
+          <StyledGatsbyImage image={getImage(image)} alt="image" />
         </a>
       ) : (
-        <GatsbyImage image={getImage(image)} alt="image" className="image" />
+        <StyledGatsbyImage image={getImage(image)} alt="image" />
       )}
     </StyledEyeCatch>
   )
@@ -19,10 +19,10 @@ const EyeCatch = ({ image, url }) => {
 const StyledEyeCatch = styled.div`
   margin: 0;
   text-align: center;
+`
 
-  .image {
-    border-radius: 10px;
-  }
+const StyledGatsbyImage = styled(GatsbyImage)`
+  border-radius: 10px;
 `
 
 export { EyeCatch }
