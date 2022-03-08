@@ -21,69 +21,83 @@ const AboutMe = () => {
   return (
     <StyledAboutMe>
       <h4>About Me</h4>
-      <Link to="/about">
+      <StyledLink to="/about">
         <StaticImage
           src="../../images/avatar.png"
           alt="avatar"
           layout="fullWidth"
           placeholder="blurred"
-          className="avatar"
+          className="about-me__avatar"
         />
-        <div className="name">タツロー</div>
-      </Link>
-      <div className="social-links">
-        {socialLinks.forEach((link, index) => {
-          if (link.component === 'AboutUs') {
+        <div>タツロー</div>
+      </StyledLink>
+      <StyledSocialLinks>
+        {socialLinks.map((link, index) => {
+          if (link.component === 'AboutMe') {
             return (
-              <a
-                href={link.url}
-                key={index}
-                target="_blank"
-                rel="noreferrer"
-                className="social-link"
-              >
+              <a href={link.url} key={index} target="_blank" rel="noreferrer">
                 {link.icon}
               </a>
             )
           }
         })}
-      </div>
-      <div className="description">{aboutMe}</div>
+      </StyledSocialLinks>
+      <StyledDescription>{aboutMe}</StyledDescription>
     </StyledAboutMe>
   )
 }
 
 const StyledAboutMe = styled.div`
   padding: 1rem;
-  background: var(--bs-white);
-  border: 1px solid var(--bs-gray-200);
+  background: ${({ theme }) => theme.primaryBg};
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 10px;
+`
 
-  .avatar {
+// StaticImageはhocが使用できないので、例外的にclass名を与えてstyling
+// https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/#using-staticimage-with-css-in-js-libraries
+// const StyledStaticImage = styled(StaticImage)``
+
+const StyledLink = styled(Link)`
+  display: block;
+
+  &:visited {
+    color: ${({ theme }) => theme.text};
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  > .about-me__avatar {
     margin: 1rem auto;
     width: 40%;
-    border: 1px solid var(--bs-gray-200);
+    border: 1px solid ${({ theme }) => theme.borderColor};
     border-radius: 50%;
   }
 
-  .name {
+  > div {
     font-size: 1rem;
-    text-decoration: none;
     text-align: center;
   }
+`
 
-  .social-links {
-    text-align: center;
-  }
+const StyledSocialLinks = styled.div`
+  text-align: center;
 
-  .social-link {
+  > a {
     margin: 0.5rem;
-  }
+    color: ${({ theme }) => theme.text};
 
-  .description {
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    &:hover {
+      opacity: 0.8;
+    }
   }
+`
+
+const StyledDescription = styled.div`
+  margin-top: 1rem;
+  font-size: 0.9rem;
 `
 
 export { AboutMe }
