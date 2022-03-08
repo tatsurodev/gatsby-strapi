@@ -1,22 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import { HiCheckCircle } from 'react-icons/hi'
+import { FaCheckSquare } from 'react-icons/fa'
 
 const List = ({ children }) => {
   return (
-    <StyledList>
-      <HiCheckCircle /> {children}
-    </StyledList>
+    <StyledLi>
+      <IconWrapper>
+        <FaCheckSquare />
+      </IconWrapper>
+      <div>{children}</div>
+    </StyledLi>
   )
 }
 
-const StyledList = styled.li`
+const StyledLi = styled.li`
+  display: flex;
   font-size: 1rem;
   margin: 0.5rem;
-
-  svg {
-    font-size: 1.2rem;
+`
+const IconWrapper = styled.div`
+  > svg {
     vertical-align: middle;
+    margin-right: 0.5rem;
   }
 `
 
