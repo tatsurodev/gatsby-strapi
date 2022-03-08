@@ -7,7 +7,7 @@ const Articles = ({ articles, prefix }) => {
   return (
     <StyledArticles>
       {useLocation().pathname.includes('/tags') && (
-        <h2 className="title">{prefix}</h2>
+        <StyledH2>{prefix}</StyledH2>
       )}
       <div className="row">
         {articles.length === 0 ? (
@@ -16,12 +16,9 @@ const Articles = ({ articles, prefix }) => {
           </div>
         ) : (
           articles.map(article => (
-            <Article
-              key={article.id}
-              article={article}
-              prefix={prefix}
-              className="col-md-6 col-lg-4"
-            />
+            <div className="col-md-6 col-lg-4" key={article.id}>
+              <Article article={article} prefix={prefix} />
+            </div>
           ))
         )}
       </div>
@@ -31,11 +28,11 @@ const Articles = ({ articles, prefix }) => {
 
 const StyledArticles = styled.div`
   margin-bottom: 1rem;
+`
 
-  .title {
-    text-transform: capitalize;
-    margin-bottom: 1rem;
-  }
+const StyledH2 = styled.h2`
+  text-transform: capitalize;
+  margin-bottom: 1rem;
 `
 
 export { Articles }
