@@ -2,23 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const SubTitle = ({ title, className }) => {
+const SubTitle = ({ title, ...props }) => {
   return (
-    <StyledSubTitle className={className}>
-      <h2 className="title">{title}</h2>
+    <StyledSubTitle {...props}>
+      <h2>{title}</h2>
       <hr />
     </StyledSubTitle>
   )
 }
 
 const StyledSubTitle = styled.div`
-  .title {
+  > h2 {
     margin-bottom: 0.5rem;
-    font-size: 2rem;
+    font-size: ${({ fontSize }) => fontSize ?? '1.6rem'};
     text-transform: capitalize;
   }
 
-  hr {
+  > hr {
     margin-bottom: 0.5rem;
   }
 `
