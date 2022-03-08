@@ -12,16 +12,16 @@ const IndexPage = ({ data }) => {
   return (
     <>
       <Hero />
-      <FeaturedArticles articles={portfolios} className="primary" />
-      <FeaturedArticles articles={reviews} className="white" />
-      <FeaturedArticles articles={blogs} className="primary" />
+      <FeaturedArticles articles={portfolios} />
+      <FeaturedArticles articles={reviews} even />
+      <FeaturedArticles articles={blogs} />
     </>
   )
 }
 
 export const query = graphql`
   {
-    allStrapiPortfolios(filter: { featured: { eq: true } }, limit: 4) {
+    allStrapiPortfolios(filter: { featured: { eq: true } }, limit: 6) {
       nodes {
         id
         title
@@ -48,7 +48,7 @@ export const query = graphql`
     }
     allStrapiReviews(
       filter: { featured: { eq: true } }
-      limit: 4
+      limit: 6
       sort: { fields: date, order: DESC }
     ) {
       nodes {
