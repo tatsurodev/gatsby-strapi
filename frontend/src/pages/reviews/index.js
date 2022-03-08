@@ -13,8 +13,8 @@ const ReviewsPage = ({
   let duplicatedTags = []
   reviews.map(review => {
     review.tags.map(tag => {
-      if (tag.name) {
-        duplicatedTags.push(tag.name)
+      if (tag.slug) {
+        duplicatedTags.push(tag.slug)
       }
     })
   })
