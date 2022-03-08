@@ -1,22 +1,22 @@
-import React from "react"
+import React from 'react'
 
 function ProgressBar({ progress }) {
   let color
   switch (progress) {
     case 5:
-      color = "bg-info"
+      color = 'bg-info'
       break
     case 4:
-      color = "bg-success"
+      color = 'bg-success'
       break
     case 3:
-      color = "bg-warning"
+      color = 'bg-warning'
       break
     case 2:
-      color = "bg-danger"
+      color = 'bg-danger'
       break
     case 1:
-      color = "bg-primary"
+      color = 'bg-primary'
       break
     default:
   }
