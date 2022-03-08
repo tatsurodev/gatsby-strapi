@@ -23,7 +23,7 @@ const useFilter = defaultArticles => {
       } else if (article.type) {
         const tags = article.tags
         hittedTags = tags.filter(tag => {
-          return selectedTags.includes(tag.name)
+          return selectedTags.includes(tag.slug)
         })
       } else {
         // portfolio時のtags
