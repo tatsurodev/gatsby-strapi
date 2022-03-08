@@ -10,16 +10,14 @@ const CommentsCount = ({ id, title, url }) => {
     url,
   }
   return (
-    <StyledCommentsCount>
+    <>
       {process.env.GATSBY_DISQUS_SHORTNAME && (
-        <>
+        <StyledCommentsCount>
           <FaCommentDots />
-          <span className="text">
-            <CommentCount config={config} placeholder="loading..." />
-          </span>
-        </>
+          <StyledCommentCount config={config} placeholder="loading..." />
+        </StyledCommentsCount>
       )}
-    </StyledCommentsCount>
+    </>
   )
 }
 
@@ -27,10 +25,10 @@ const StyledCommentsCount = styled.div`
   display: flex;
   align-items: center;
   margin-top: 1rem;
+`
 
-  .text {
-    margin-left: 1rem;
-  }
+const StyledCommentCount = styled(CommentCount)`
+  margin-left: 1rem;
 `
 
 export { CommentsCount }
