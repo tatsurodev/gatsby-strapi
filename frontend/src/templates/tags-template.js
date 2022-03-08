@@ -14,7 +14,7 @@ const TagsTemplate = ({ pageContext }) => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <Title title={tag.name} pageContext={pageContext} />
+            <Title title={tag} pageContext={pageContext} />
           </div>
         </div>
         <Articles articles={filteredPortfolios} prefix="portfolios" />
