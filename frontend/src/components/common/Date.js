@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaCalendarAlt } from 'react-icons/fa'
 
-const Date = ({ date, className }) => {
+const Date = ({ date }) => {
   return (
-    <StyledDate className={className}>
+    <StyledDate>
       <FaCalendarAlt />
-      <span className="text">{date}</span>
+      <span>{date}</span>
     </StyledDate>
   )
 }
@@ -16,7 +16,7 @@ const StyledDate = styled.div`
   align-items: center;
   margin-top: 1rem;
 
-  .text {
+  > span {
     margin-left: 1rem;
   }
 `
