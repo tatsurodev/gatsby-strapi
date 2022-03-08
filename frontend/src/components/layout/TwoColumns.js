@@ -1,8 +1,9 @@
 import React from 'react'
 import { AboutMe, RelatedArticles } from '../common'
-import { Toc } from '../blogs'
+import { Toc, mapTagsToComponents } from '../blogs'
 import styled from 'styled-components'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
+import ReactMarkdown from 'react-markdown'
 import {
   Breadcrumb,
   Date,
@@ -44,43 +45,39 @@ const TwoColumns = ({
       <div className="container">
         <div className="row">
           <div className="col-md-3">
-            <div className="sidebar">
+            <StyledSidebar>
               {prefix === 'blogs' && <Toc items={tocItems} />}
               <AboutMe />
               <RelatedArticles articles={relatedArticles} prefix={prefix} />
-            </div>
+            </StyledSidebar>
           </div>
           <div className="col-md-9">
-            <div className="content">
+            <StyledContent>
               <Breadcrumb pageContext={pageContext} crumbLabel={title} />
-              <article>
-                <h1 className="article-title">{title}</h1>
-                <Date className="date" date={date} />
-                <Tags className="tags" tags={tags} />
-                <div className="eyecatch">
+              <StyledArticle>
+                <h1>{title}</h1>
+                <Date date={date} />
+                <Tags tags={tags} />
+                <div>
                   {reviewTitle ? (
-                    <Rating
-                      className="rating"
-                      rating={rating}
-                      reviewTitle={reviewTitle}
-                    >
+                    <Rating rating={rating} reviewTitle={reviewTitle}>
                       <EyeCatch image={image} url={url} />
                     </Rating>
                   ) : (
                     <EyeCatch image={image} url={url} />
                   )}
                 </div>
-                {description && <div className="body">{description}</div>}
-                {body && (
-                  <div className="body">
-                    <MDXRenderer>{body}</MDXRenderer>
-                  </div>
-                )}
-                {websites && (
-                  <Websites className="websites" websites={websites} />
-                )}
-              </article>
-            </div>
+                <StyledBody>
+                  {description && (
+                    <ReactMarkdown components={mapTagsToComponents}>
+                      {description}
+                    </ReactMarkdown>
+                  )}
+                  {body && <MDXRenderer>{body}</MDXRenderer>}
+                </StyledBody>
+                {websites && <Websites websites={websites} />}
+              </StyledArticle>
+            </StyledContent>
             <Comments id={commentId} title={title} url={location.href} />
           </div>
         </div>
@@ -91,63 +88,48 @@ const TwoColumns = ({
 
 const StyledTwoColumns = styled.div`
   font-size: 1.2rem;
-  background: var(--bs-light);
+  background: ${({ theme }) => theme.primaryBg};
+`
 
-  h1,
+const StyledSidebar = styled.div`
+  > div {
+    margin: 2rem 0;
+  }
+`
+
+const StyledContent = styled.div`
+  margin: 2rem 0;
+  padding: 2rem;
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  border-radius: 10px;
+  background: ${({ theme }) => theme.primaryBg};
+`
+
+const StyledArticle = styled.article`
+  > h1 {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  > div {
+    margin: 1rem 0;
+  }
+`
+
+const StyledBody = styled.div`
+  > h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
     font-size: 1.2rem;
-    margin: 0.5rem 0;
+    margin: 1rem 0;
   }
 
-  p {
+  > p {
     font-size: 1rem;
     padding: 0 0.5rem;
-  }
-
-  .websites {
-    margin-top: 2rem;
-  }
-
-  .sidebar > div {
-    margin: 2rem 0;
-  }
-
-  .content {
-    margin: 2rem 0;
-    padding: 2rem;
-    border: 1px solid var(--bs-gray-200);
-    border-radius: 10px;
-    background: var(--bs-white);
-
-    .date {
-      margin: 1rem 0;
-    }
-
-    .tags {
-      margin: 1rm 0;
-    }
-
-    .eyecatch {
-      margin: 2rem 0;
-    }
-
-    .article-title {
-      font-size: 1.6rem;
-      font-weight: 500;
-    }
-
-    .thumbnail {
-      margin: 2rem 0;
-      text-align: center;
-    }
-
-    .body {
-      margin-top: 2rem;
-    }
   }
 `
 
