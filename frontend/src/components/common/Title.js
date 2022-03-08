@@ -16,7 +16,7 @@ const StyledTitle = styled.div`
   flex-direction: column;
   align-items: center;
 
-  h1 {
+  > h1 {
     font-size: 2.4rem;
     text-transform: capitalize;
     margin-bottom: 0.5rem;
