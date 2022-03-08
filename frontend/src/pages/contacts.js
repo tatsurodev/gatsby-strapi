@@ -81,11 +81,9 @@ const ContactsPage = ({ pageContext, location }) => {
         >
           <FaPencilAlt />
         </Input>
-        <div className="d-grid">
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            Submit
-          </button>
-        </div>
+        <StyledButton type="submit" className="btn" disabled={loading}>
+          Submit
+        </StyledButton>
       </form>
     </StyledContactsPage>
   )
@@ -93,8 +91,19 @@ const ContactsPage = ({ pageContext, location }) => {
 
 const StyledContactsPage = styled.div`
   padding: 2rem;
-  button {
-    border-radius: 5px;
+`
+
+const StyledButton = styled.button`
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  color: ${({ theme }) => theme.text};
+  background: ${({ theme }) => theme.secondaryBg};
+
+  &:hover {
+    color: inherit;
+    opacity: 0.8;
   }
 `
 
