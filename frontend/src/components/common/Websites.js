@@ -2,21 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaGlobeAmericas, FaGithub } from 'react-icons/fa'
 import { GatsbyImage, StaticImage, getImage } from 'gatsby-plugin-image'
+import ReactMarkdown from 'react-markdown'
+import { H1, mapTagsToComponents } from '../blogs'
 
-const Websites = ({ websites, className }) => (
-  <StyledWebsites className={className}>
-    <h3 className="demo-title">Demo & Github</h3>
+const Websites = ({ websites }) => (
+  <StyledWebsites>
+    <H1 center fontSize="1.2rem">
+      Demo & Github
+    </H1>
     <div className="row">
       {websites.map(
         ({ title, description, image, github, url, tags }, index) => {
           return (
             <div key={index} className="col-md-6">
-              <div className="card">
+              <StyledWebsite key={index}>
                 {image ? (
                   <GatsbyImage
                     image={getImage(image.localFile)}
                     alt="image"
-                    className="card-img image"
+                    className="website__image"
                   />
                 ) : (
                   <StaticImage
@@ -24,36 +28,34 @@ const Websites = ({ websites, className }) => (
                     alt={title}
                     layout="fullWidth"
                     placeholder="blurred"
-                    className="image"
+                    className="website__image"
                   />
                 )}
-                <div className="card-body">
-                  <h4 className="card-title">{title}</h4>
-                  {description && <p className="card-text">{description}</p>}
-                </div>
-                <div className="card-footer">
+                <StyledWebsiteBody>
+                  <h4>{title}</h4>
+                  {description && (
+                    <ReactMarkdown components={mapTagsToComponents}>
+                      {description}
+                    </ReactMarkdown>
+                  )}
+                </StyledWebsiteBody>
+                <StyledWebsiteFooter>
                   <div className="row">
                     <div className="col-6">
-                      <a
-                        className="btn btn-outline-dark me-2 d-block "
-                        href={url}
-                      >
+                      <StyledA href={url}>
                         <FaGlobeAmericas />
                         <span>Demo</span>
-                      </a>
+                      </StyledA>
                     </div>
                     <div className="col-6">
-                      <a
-                        className="btn btn-outline-dark me-2 d-block"
-                        href={github}
-                      >
+                      <StyledA href={github}>
                         <FaGithub />
                         <span>Github</span>
-                      </a>
+                      </StyledA>
                     </div>
                   </div>
-                </div>
-              </div>
+                </StyledWebsiteFooter>
+              </StyledWebsite>
             </div>
           )
         }
@@ -62,29 +64,62 @@ const Websites = ({ websites, className }) => (
   </StyledWebsites>
 )
 
-const StyledWebsites = styled.div`
-  .demo-title {
-    margin-bottom: 2rem;
-    padding: 0.5rem;
-    color: var(--bs-white);
-    background: var(--bs-primary);
-    border-radius: 10px;
-    text-align: center;
+const StyledWebsites = styled.div``
+
+const StyledWebsite = styled.div`
+  margin-top: 2rem;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.text};
+  background: ${({ theme }) => theme.primaryBg};
+  border: 1px solid ${({ theme }) => theme.borderColor};
+
+  // StaticImageはstyled helperで参照不可なので例外的にclassでstyle追加
+  > .website__image {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+    height: 15rem;
+  }
+`
+
+const StyledWebsiteBody = styled.div`
+  padding: 1rem;
+
+  > h4 {
+    margin-bottom: 0.5rem;
   }
 
-  .card {
-    svg {
-      vertical-align: middle;
-    }
+  > ul {
+    margin-left: 0.5rem;
+  }
 
-    .image {
-      height: 10rem;
-    }
+  > p,
+  li {
+    font-size: 0.9rem;
+  }
+`
 
-    span {
-      margin-left: 0.5rem;
-      font-size: 0.8rem;
-    }
+const StyledWebsiteFooter = styled.div`
+  text-align: center;
+  border-top: 1px solid ${({ theme }) => theme.borderColor};
+  background: ${({ theme }) => theme.secondaryBg};
+`
+
+const StyledA = styled.a`
+  display: block;
+  padding: 0.5rem 0;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  > svg {
+    vertical-align: middle;
+  }
+
+  > span {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
   }
 `
 
