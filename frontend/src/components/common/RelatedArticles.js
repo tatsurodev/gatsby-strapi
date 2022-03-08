@@ -6,7 +6,7 @@ import { Link } from 'gatsby'
 const RelatedArticles = ({ articles, prefix }) => {
   return (
     <StyledRelatedArticles>
-      <h4 className="heading">{`Recent ${prefix}`}</h4>
+      <h4>{`Recent ${prefix}`}</h4>
       {articles.map((article, index) => {
         var title, slug, image, date
         // blog時の処理
@@ -21,17 +21,13 @@ const RelatedArticles = ({ articles, prefix }) => {
           image = image.localFile
         }
         return (
-          <div key={index} className="article">
-            <Link to={`/${prefix}/${slug}`}>
-              <GatsbyImage
-                image={getImage(image)}
-                alt={title}
-                className="article-image"
-              />
-              <span className="article-date">{date}</span>
-              <h4 className="article-title">{title}</h4>
-            </Link>
-          </div>
+          <StyledSidebarArticle key={index}>
+            <StyledLink to={`/${prefix}/${slug}`}>
+              <StyledGatsbyImage image={getImage(image)} alt={title} />
+              <span>{date}</span>
+              <h4>{title}</h4>
+            </StyledLink>
+          </StyledSidebarArticle>
         )
       })}
     </StyledRelatedArticles>
@@ -40,34 +36,44 @@ const RelatedArticles = ({ articles, prefix }) => {
 
 const StyledRelatedArticles = styled.div`
   padding: 1rem;
-  background: var(--bs-white);
-  border: 1px solid var(--bs-gray-200);
+  background: ${({ theme }) => theme.primaryBg};
+  border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: 10px;
 
-  .heading {
+  > h4 {
     margin-bottom: 1rem;
     text-transform: capitalize;
   }
+`
 
-  .article {
-    margin-bottom: 1rem;
+const StyledSidebarArticle = styled.div`
+  margin-bottom: 1rem;
+`
+
+const StyledLink = styled(Link)`
+  display: block;
+
+  &:hover {
+    opacity: 0.8;
   }
 
-  .article-date {
+  > span {
+    color: ${({ theme }) => theme.text};
     font-size: 0.8rem;
     margin: 0.2rem;
   }
-  .article-title {
+
+  > h4 {
     margin: 0 0.2rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+`
 
-  .article-image {
-    border-radius: 0.3rem;
-  }
+const StyledGatsbyImage = styled(GatsbyImage)`
+  border-radius: 0.3rem;
 `
 
 export { RelatedArticles }
