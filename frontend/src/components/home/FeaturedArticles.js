@@ -1,10 +1,10 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
-import { SubTitle, Article } from '../common'
+import { SubTitle, Articles } from '../common'
 
-const FeaturedArticles = ({ articles, className }) => {
+const FeaturedArticles = ({ articles, ...props }) => {
   const firstArticleId = articles[0].id
   let prefix, title
   if (firstArticleId.includes('Portfolios')) {
@@ -20,108 +20,58 @@ const FeaturedArticles = ({ articles, className }) => {
   const { pathname } = useLocation()
 
   return (
-    <StyledFeaturedArticles className={className}>
-      <div className="heading">
-        <SubTitle title={title} className="title" />
+    <StyledFeaturedArticles {...props}>
+      <StyledHeading>
+        <SubTitle fontSize="1.6vw" title={title} />
         {pathname === '/' && (
-          <Link
-            to={`/${prefix}`}
-            className={`btn ${
-              className === 'primary'
-                ? 'btn-outline-light'
-                : 'btn-outline-primary'
-            }`}
-          >
-            {`Check Other ${prefix}`}
-          </Link>
+          <Link to={`/${prefix}`}>{`Check Other ${prefix}`}</Link>
         )}
-      </div>
-      <div className="articles container">
-        <div className="row">
-          {articles.map(article => {
-            return (
-              <Article
-                key={article.id}
-                article={article}
-                prefix={prefix}
-                className="col-md-6"
-              />
-            )
-          })}
-        </div>
-      </div>
+      </StyledHeading>
+      <StyledArticles>
+        <Articles articles={articles} prefix={prefix} />
+      </StyledArticles>
     </StyledFeaturedArticles>
   )
 }
 
-const bgWhite = props => css`
-  // ${console.log(props.className)}
-  background: ${props.className === 'primary'
-    ? 'var(--bs-white)'
-    : 'var(--bs-primary)'};
-`
-
-const bgPrimary = props => css`
-  background: ${props.className === 'primary'
-    ? 'var(--bs-primary)'
-    : 'var(--bs-white)'};
-`
-const textWhite = props => css`
-  color: ${props.className === 'primary'
-    ? 'var(--bs-white)'
-    : 'var(--bs-dark)'};
-`
-
 const StyledFeaturedArticles = styled.div`
   position: relative;
-  ${bgPrimary}
+  // react componentで受け取ったpropsをstyled componentに渡すことでprops.paramNameでaccessできる
+  // ${({ theme, even }) => console.log('theme', theme, 'even', even)}
+  background: ${({ theme, even }) =>
+    even ? theme.primaryBg : theme.secondaryBg};
   display: grid;
   grid-template-rows: 50% 50%;
   grid-template-columns: 30% 35% 35%;
   padding: 1rem;
+  z-index: 0;
 
-  ::before {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 30%;
     right: 0;
     bottom: 0;
-    ${bgWhite}
+    background: ${({ theme, even }) =>
+      even ? theme.secondaryBg : theme.primaryBg};
+    z-index: -100;
   }
+`
 
-  .heading {
-    ${textWhite}
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 15%;
-    transform: translateY(-50%) translateX(-50%);
+const StyledHeading = styled.div`
+  color: ${({ theme }) => theme.text};
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  transform: translateY(-50%) translateX(-50%);
+`
 
-    a {
-      font-size: 1.2vw;
-      text-align: center;
-    }
-
-    .title {
-      font-size: 1.6vw;
-    }
-
-    .btn {
-      margin-top: 1rem;
-    }
-
-    .btn-outline-light: hover {
-      color: var(--bs-primary);
-      border-color: var(--bs-primary);
-    }
-  }
-
-  .articles {
-    padding: 0 2rem;
-    grid-row: 1/3;
-    grid-column: 2/4;
-  }
+const StyledArticles = styled.div`
+  padding: 0 2rem;
+  grid-row: 1/3;
+  grid-column: 2/4;
 `
 
 export { FeaturedArticles }
