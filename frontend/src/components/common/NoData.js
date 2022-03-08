@@ -5,9 +5,9 @@ import { BsFillExclamationDiamondFill } from 'react-icons/bs'
 const NoData = () => {
   return (
     <StyledNoData>
-      <BsFillExclamationDiamondFill className="exclamation" />
-      <span className="message">No Data Found</span>
-      <BsFillExclamationDiamondFill className="exclamation" />
+      <BsFillExclamationDiamondFill />
+      <span>No Data Found</span>
+      <BsFillExclamationDiamondFill />
     </StyledNoData>
   )
 }
@@ -17,14 +17,14 @@ const StyledNoData = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  color: var(--bs-dark);
+  color: ${({ theme }) => theme.text};
 
-  .exclamation {
-    color: var(--bs-danger);
+  > svg {
+    color: ${({ theme }) => theme.danger};
     font-size: 2rem;
   }
 
-  .message {
+  > span {
     margin: 0 0.5rem;
   }
 `
