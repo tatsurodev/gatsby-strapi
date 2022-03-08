@@ -28,7 +28,7 @@ const Input = ({
 
   return (
     <StyledInput className="input-group">
-      <span className="input-group-text bg-primary text-white">{children}</span>
+      <span className="input-group-text">{children}</span>
       {tag === 'input' && (
         <input
           type={type}
@@ -49,11 +49,9 @@ const Input = ({
         ></textarea>
       )}
       {errors[name] ? (
-        <div className="feedback invalid-feedback">
-          <p className="error-text">{errors[name]}</p>
-        </div>
+        <p className="invalid-feedback">{errors[name]}</p>
       ) : (
-        <div className="feedback valid-feedback">Looks good!</div>
+        <p className="valid-feedback">Looks good!</p>
       )}
     </StyledInput>
   )
@@ -62,12 +60,17 @@ const Input = ({
 const StyledInput = styled.div`
   margin-bottom: 0.5rem;
 
-  .feedback {
-    margin-left: 0.5rem;
+  > span {
+    background: ${({ theme }) => theme.secondaryBg};
+    color: ${({ theme }) => theme.text};
+    border-radius: 5px 0 0 5px;
+    border: 1px solid ${({ theme }) => theme.borderColor};
   }
 
-  .error-text {
-    margin: 0;
+  > input,
+  textarea {
+    border-radius: 0 5px 5px 0;
+    border: 1px solid ${({ theme }) => theme.borderColor};
   }
 `
 
