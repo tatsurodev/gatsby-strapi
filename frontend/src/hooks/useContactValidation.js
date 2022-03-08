@@ -92,6 +92,8 @@ const useFormValidation = (initialState, validation) => {
     event.preventDefault()
     const validationErrors = validation(values)
     setErrors(validationErrors)
+    // submitで全fieldをtouch
+    setTouched({ name: true, email: true, message: true })
     setValidatedWhenAllTouched(event)
     setLoading(true)
   }
