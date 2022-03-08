@@ -15,27 +15,30 @@ const Breadcrumb = ({ pageContext, crumbLabel }) => {
 }
 
 const StyledBreadCrumb = styled.div`
+  // 外部componentなので例外的にclassでstyling
   .breadcrumb {
-    background: var(--bs-white);
-    border-radius: 10px;
-    .breadcrumb__list {
+    &__list {
       display: flex;
       justify-content: flex-start;
-      .breadcrumb__list__item:not(:first-child) {
-        margin-left: 0.4rem;
-      }
-      .breadcrumb__list__item {
+      color: ${({ theme }) => theme.links};
+
+      &__item {
         margin-right: 0.4rem;
         text-transform: capitalize;
-      }
-      .breadcrumb__link:hover {
-        opacity: 0.8;
+
+        &:not(:first-child) {
+          margin-left: 0.4rem;
+        }
       }
     }
-  }
 
-  a {
-    color: var(--bs-gray);
+    &__link:hover {
+      opacity: 0.8;
+    }
+
+    &__separator {
+      color: ${({ theme }) => theme.text};
+    }
   }
 `
 
