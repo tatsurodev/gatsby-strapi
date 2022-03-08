@@ -1,17 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const H1 = ({ children }) => {
-  return <StyledH1>{children}</StyledH1>
+const H1 = ({ children, ...props }) => {
+  return <StyledH1 {...props}>{children}</StyledH1>
 }
 
 const StyledH1 = styled.h1`
-  font-size: 1.6rem;
-  margin: 1rem 0;
+  font-size: ${({ fontSize }) => fontSize ?? '1.6rem'};
+  margin: 2rem 0 0.5rem 0;
   padding: 0.5rem;
-  color: var(--bs-white);
-  background: var(--bs-primary);
+  color: ${({ theme }) => theme.headings};
+  background: ${({ theme }) => theme.primary};
   border-radius: 10px;
+  ${({ center }) => (center ? 'text-align: center;' : '')}
 `
 
 const H2 = ({ children }) => {
@@ -20,11 +21,7 @@ const H2 = ({ children }) => {
 
 const StyledH2 = styled.h2`
   padding: 0.5rem;
-  border-bottom: solid 1px var(--bs-primary);
-
-  svg {
-    margin-right: 0.5rem;
-  }
+  border-bottom: solid 3px ${({ theme }) => theme.borderColor};
 `
 
 const H3 = ({ children }) => {
@@ -33,10 +30,7 @@ const H3 = ({ children }) => {
 
 const StyledH3 = styled.h3`
   padding: 0.5rem;
-  border-bottom: dotted 1px var(--bs-primary);
-  svg {
-    margin-right: 0.5rem;
-  }
+  border-bottom: dotted 1px ${({ theme }) => theme.borderColor};
 `
 
 export { H1, H2, H3 }
