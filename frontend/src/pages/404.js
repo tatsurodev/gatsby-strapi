@@ -8,10 +8,10 @@ const NotFound = ({ pageContext, location }) => {
     <StyledNotFound className="container">
       <Message location={location} />
       <Title title="404" pageContext={pageContext} />
-      <h3 className="message">
+      <StyledH3>
         <RiEmotionUnhappyLine />
         <span>Page Not Found</span>
-      </h3>
+      </StyledH3>
     </StyledNotFound>
   )
 }
@@ -21,15 +21,15 @@ const StyledNotFound = styled.div`
   button {
     border-radius: 5px;
   }
+`
 
-  .message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const StyledH3 = styled.h3`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    span {
-      margin-left: 1rem;
-    }
+  > span {
+    margin-left: 1rem;
   }
 `
 
