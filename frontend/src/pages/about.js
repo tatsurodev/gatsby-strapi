@@ -19,19 +19,17 @@ const AboutPage = ({ data, pageContext }) => {
   })
   let skillsJSX = []
   for (let key in skillsByTypes) {
-    skillsJSX.push(
-      <h3 className="heading" key={key}>
-        {key}
-      </h3>
-    )
+    skillsJSX.push(<StyledH3 key={key}>{key}</StyledH3>)
     skillsByTypes[key].forEach(skill => {
       skillsJSX.push(
-        <div className="col-md-6 skill" key={skill.tag.name}>
-          <div className="skill-name">
-            <h4>{skill.tag.name}</h4>
-            <span>{skill.description}</span>
-          </div>
-          <ProgressBar progress={skill.progress} />
+        <div className="col-md-6" key={skill.tag.name}>
+          <StyledSkill>
+            <StyledSkillName>
+              <h4>{skill.tag.name}</h4>
+              <span>{skill.description}</span>
+            </StyledSkillName>
+            <ProgressBar progress={skill.progress} />
+          </StyledSkill>
         </div>
       )
     })
@@ -42,14 +40,16 @@ const AboutPage = ({ data, pageContext }) => {
       <Title title="About" pageContext={pageContext} />
       <div>
         <SubTitle title={title} />
-        <div className="content">{content}</div>
+        <StyledContent>{content}</StyledContent>
       </div>
       <div>
         <SubTitle title="Skills" />
-        <div className="row skills">{skillsJSX}</div>
+        <StyledSkills>
+          <div className="row">{skillsJSX}</div>
+        </StyledSkills>
         <div className="row">
           <div className="col">
-            <div className="date">Updated At {updated_at}</div>
+            <StyledDate>Updated At {updated_at}</StyledDate>
           </div>
         </div>
       </div>
@@ -57,50 +57,45 @@ const AboutPage = ({ data, pageContext }) => {
   )
 }
 
-// styled(component)でcomponentを拡張
 const StyledAboutPage = styled.div`
   padding: 2rem;
+`
 
-  .content {
-    padding: 1rem;
-  }
+const StyledH3 = styled.h3`
+  padding: 0.5rem;
+  color: ${({ theme }) => theme.text};
+  background: ${({ theme }) => theme.primary};
+  border-radius: 10px;
+  text-align: center;
+`
 
-  .heading {
-    padding: 0.5rem;
-    color: var(--bs-white);
-    background: var(--bs-primary);
-    border-radius: 10px;
-    text-align: center;
-  }
+const StyledSkill = styled.div`
+  margin: 1rem 0;
+`
 
-  .skills {
-    padding: 1rem;
+const StyledSkillName = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
 
-    h3:not(:first-child) {
-      margin-top: 2rem;
-    }
-
-    .skill {
-      margin: 1rem 0;
-    }
-  }
-
-  .skill-name {
-    display: flex;
-    align-items: center;
-    margin: 1rem 0;
-
-    span {
-      font-size: 0.8rem;
-      margin: 0 1rem;
-    }
-  }
-
-  .date {
-    float: right;
-    margin-top: 1rem;
+  > span {
     font-size: 0.8rem;
+    margin: 0 1rem;
   }
+`
+
+const StyledSkills = styled.div`
+  padding: 1rem;
+`
+
+const StyledContent = styled.div`
+  padding: 1rem;
+`
+
+const StyledDate = styled.div`
+  float: right;
+  margin-top: 1rem;
+  font-size: 0.8rem;
 `
 
 export const query = graphql`
