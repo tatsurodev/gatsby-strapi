@@ -1,76 +1,76 @@
-import React from "react"
-import styled from "styled-components"
-import { FiInfo } from "react-icons/fi"
-import { TiWarningOutline } from "react-icons/ti"
-import { FaHome } from "react-icons/fa"
+import React from 'react'
+import styled, { css } from 'styled-components'
+import { FiInfo } from 'react-icons/fi'
+import { FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa'
+import { TiWarningOutline, TiLightbulb } from 'react-icons/ti'
 
-const Notice = ({ children, info, warning, danger }) => {
-  if (warning) {
-    return (
-      <StyledNotice>
-        <div className="container warning">
-          <TiWarningOutline className="icon" />
-          {children}
-        </div>
-      </StyledNotice>
-    )
-  } else if (info) {
-    return (
-      <StyledNotice>
-        <div className="container info">
-          <FaHome className="icon" />
-          <FiInfo className="icon" />
-          {children}
-        </div>
-      </StyledNotice>
-    )
+const Notice = ({ children, ...props }) => {
+  const { info, success, warning, danger } = props
+  const Icon = info
+    ? FiInfo
+    : success
+    ? FaRegThumbsUp
+    : warning
+    ? TiWarningOutline
+    : danger
+    ? FaRegThumbsDown
+    : TiLightbulb
+
+  return (
+    <StyledNotice {...props}>
+      <IconWrapper>
+        <Icon />
+      </IconWrapper>
+      {children}
+    </StyledNotice>
+  )
+}
+
+const variation = ({ info, success, warning, danger }) => {
+  if (info) {
+    return css`
+      background: ${({ theme }) => theme.primary};
+    `
+  } else if (success) {
+    return css`
+      background: ${({ theme }) => theme.success};
+    `
+  } else if (warning) {
+    return css`
+      background: ${({ theme }) => theme.warning};
+    `
+  } else if (danger) {
+    return css`
+      background: ${({ theme }) => theme.danger};
+    `
   } else {
-    return (
-      <StyledNotice>
-        <div className="container default">{children}</div>
-      </StyledNotice>
-    )
+    return css`
+      background: ${({ theme }) => theme.secondaryBg};
+    `
   }
 }
+
 const StyledNotice = styled.div`
-  .container {
-    padding: 2rem 1.5rem;
-    background: var(--grey-10);
-    border-radius: var(--radius-m);
-    color: var(--grey-1);
-    border-left: 3px solid var(--grey-5);
-    position: relative;
-    margin: 2rem 0;
-  }
+  color: ${({ theme }) => theme.text};
+  padding: 2rem;
+  border-radius: 10px;
+  border-left: 5px solid ${({ theme }) => theme.borderColor};
+  position: relative;
+  margin: 2rem 1rem;
+  ${variation}
+`
 
-  .icon {
-    position: absolute;
-    top: 0;
-    left: -3px;
-    background: var(--white);
-    transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 6px solid var(--white);
-  }
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.primaryBg};
 
-  .info {
-    background: var(--primary-10);
-    color: var(--primary-1);
-    border-color: var(--primary-5);
-    .icon {
-      color: var(--primary-5);
-    }
-  }
-
-  .warning {
-    background: #fffaeb;
-    color: #513c06;
-    border-color: #f7d070;
-    .icon {
-      color: #f7d070;
-    }
+  > svg {
+    font-size: 1.6rem;
   }
 `
+
 export { Notice }
