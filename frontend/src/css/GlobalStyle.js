@@ -439,23 +439,27 @@ Global Styles
 ================================================*/
 html {
   scroll-behavior: smooth;
-  font-family: var(--font-primary);
 }
 
 body {
-  color: var(--bs-dark);
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.primaryBg};
+  transition: all ${({ theme }) => theme.transitionTime};
+}
+
+p {
+  color: ${({ theme }) => theme.text};
+  transition: color ${({ theme }) => theme.transitionTime};
+}
+
+h1,h2,h3,h4,h5,h6 {
+  color: ${({ theme }) => theme.headings};
+  transition: color ${({ theme }) => theme.transitionTime};
 }
 
 a, a:visited, a:hover, a:active {
+  color:${({ theme }) => theme.links};
   text-decoration: none;
-}
-/*================================================
-
-Global Styles
-
-================================================*/
-html {
-  scroll-behavior: smooth;
 }
 `
 
