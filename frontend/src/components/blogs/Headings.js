@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+// propsを渡さないとgatsby-remark-autolink-headersが動かないので注意
 const H1 = ({ children, ...props }) => {
   return <StyledH1 {...props}>{children}</StyledH1>
 }
@@ -15,8 +16,8 @@ const StyledH1 = styled.h1`
   ${({ center }) => (center ? 'text-align: center;' : '')}
 `
 
-const H2 = ({ children }) => {
-  return <StyledH2>{children}</StyledH2>
+const H2 = ({ children, ...props }) => {
+  return <StyledH2 {...props}>{children}</StyledH2>
 }
 
 const StyledH2 = styled.h2`
@@ -24,8 +25,8 @@ const StyledH2 = styled.h2`
   border-bottom: solid 3px ${({ theme }) => theme.borderColor};
 `
 
-const H3 = ({ children }) => {
-  return <StyledH3>{children}</StyledH3>
+const H3 = ({ children, ...props }) => {
+  return <StyledH3 {...props}>{children}</StyledH3>
 }
 
 const StyledH3 = styled.h3`
