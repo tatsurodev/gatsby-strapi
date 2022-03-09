@@ -19,7 +19,7 @@ const ReviewTemplate = ({ data, pageContext, location }) => {
     tags: ArrayOfTagsObject,
   } = data.review
   let tags = []
-  ArrayOfTagsObject.map(({ name }) => tags.push(name))
+  ArrayOfTagsObject.map(({ slug }) => tags.push(slug))
 
   const articles = data.recentReviews.nodes
 
