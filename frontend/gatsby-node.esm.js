@@ -103,14 +103,17 @@ export const createPages = async ({ graphql, actions }) => {
   ]
   const tags = [...new Set(duplicatedTags)]
 
-  // let portfolios, reviews, blogs
   tags.forEach(tag => {
     const portfolios = result.data.portfolios.nodes.filter(portfolio => {
       const tags = getNoDuplicateTags(portfolio.websites)
-      return tags.includes(tag)
+      return tags.includes(tag.toLowerCase())
     })
     const reviews = result.data.reviews.nodes.filter(review => {
-      return review.tags.filter(t => t.name === tag).length !== 0
+      return (
+        review.tags.filter(t => {
+          return t.slug.toLowerCase() === tag.toLowerCase()
+        }).length !== 0
+      )
     })
     const blogs = result.data.blogs.nodes.filter(blog => {
       // console.log('tag', tag, 'blogtags', blog.frontmatter.tags)
