@@ -3,6 +3,7 @@ export const lightTheme = {
   // color
   primary: '#ddf4ff',
   success: '#e6ffec',
+  warning: '#fff8c5',
   danger: '#ffebe9',
   toggleIcon: '#c69026',
   // background

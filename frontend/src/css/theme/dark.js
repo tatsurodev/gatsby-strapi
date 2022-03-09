@@ -3,6 +3,7 @@ export const darkTheme = {
   // color
   primary: 'rgba(65,132,228,0.15)',
   success: 'rgba(70,149,74,0.15)',
+  warning: 'rgba(174,124,20,0.4)',
   danger: 'rgba(229,83,75,0.15)',
   toggleIcon: '#986ee2',
   // background
