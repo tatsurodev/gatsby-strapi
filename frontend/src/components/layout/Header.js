@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'gatsby'
 import { useLocation } from '@reach/router'
 import styled from 'styled-components'
@@ -11,121 +11,130 @@ import {
   FaEnvelope,
   FaBlog,
 } from 'react-icons/fa'
+import { Toggler } from './Toggler'
 
 const Header = () => {
-  // navbarのtogglerによってnavbarのcolor変更
-  const [isNavItemDark, setIsNavItemDark] = useState(false)
   // homeとそれ以外の時でbackground-colorを変更
   const isHome = useLocation().pathname === '/'
+  // react component内でtheme contextにaccessする場合は、ThemeContextを使用。styled componentのpropsで与えた値は、定義内でpropsでaccessできる
+  // const { id, primary, warning, danger } = useContext(ThemeContext)
 
   return (
-    <StyledHeader>
-      <Navbar
+    <StyledHeader isHome={isHome}>
+      <StyledNavbar
         bg={isHome ? 'transparent' : ''}
         expand="md"
         collapseOnSelect
-        variant={isNavItemDark ? 'light' : 'dark'}
       >
         <Container>
-          <Link to="/">
-            <Navbar.Brand className={`${isHome ? ' text-muted' : ''}`}>
-              &lt;Tatsuro.Dev /&gt;
-            </Navbar.Brand>
-          </Link>
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            onClick={() => {
-              isHome && setIsNavItemDark(!isNavItemDark)
-            }}
-          />
+          <Navbar.Brand>
+            <StyledLink to="/">&lt;Tatsuro.Dev /&gt;</StyledLink>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Item as="li">
-                <Link to="/" className="nav-link d-flex align-items-center">
-                  <FaHome />
-                  <span className="nav-link__text">Home</span>
-                </Link>
-              </Nav.Item>
-              <Link to="/about" className="nav-link d-flex align-items-center">
+            <StyledNav>
+              <StyledLink to="/">
+                <FaHome />
+                <span>Home</span>
+              </StyledLink>
+              <StyledLink to="/about">
                 <FaIdCardAlt />
-                <span className="nav-link__text">About</span>
-              </Link>
-              <NavDropdown title="My Work">
-                <Link to="/portfolios">
-                  <NavDropdown.Item
-                    as="li"
-                    className="d-flex align-items-center"
-                  >
+                <span>About</span>
+              </StyledLink>
+              <StyledNavDropdown title="My Work">
+                <NavDropdown.Item as="li">
+                  <StyledLink to="/portfolios">
                     <FaBriefcase />
-                    <span className="nav-link__text">Portfolio</span>
-                  </NavDropdown.Item>
-                </Link>
-                <Link to="/reviews">
-                  <NavDropdown.Item
-                    as="li"
-                    className="d-flex align-items-center"
-                  >
+                    <span>Portfolio</span>
+                  </StyledLink>
+                </NavDropdown.Item>
+                <NavDropdown.Item as="li">
+                  <StyledLink to="/reviews">
                     <FaGraduationCap />
-                    <span className="nav-link__text">Udemy & Book</span>
-                  </NavDropdown.Item>
-                </Link>
-              </NavDropdown>
-              <Link
-                to="/contacts"
-                className="nav-link d-flex align-items-center"
-              >
+                    <span>Udemy & Book</span>
+                  </StyledLink>
+                </NavDropdown.Item>
+              </StyledNavDropdown>
+              <StyledLink to="/contacts">
                 <FaEnvelope />
-                <span className="nav-link__text">Contact</span>
-              </Link>
-              <Link to="/blogs" className="nav-link d-flex align-items-center">
+                <span>Contact</span>
+              </StyledLink>
+              <StyledLink to="/blogs">
                 <FaBlog />
-                <span className="nav-link__text">Blog</span>
-              </Link>
-            </Nav>
+                <span>Blog</span>
+              </StyledLink>
+              <StyledTogglerWrapper>
+                <Toggler />
+              </StyledTogglerWrapper>
+            </StyledNav>
           </Navbar.Collapse>
         </Container>
-      </Navbar>
+      </StyledNavbar>
     </StyledHeader>
   )
 }
 
 const StyledHeader = styled.header`
   position: relative;
+  border-bottom: ${({ theme, isHome }) =>
+    isHome ? 'none' : `1px solid ${theme.borderColor}`};
 
-  ::before {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 30%;
     right: 0;
     bottom: 0;
-    background: var(--bs-primary);
+    background: ${({ theme }) => theme.secondaryBg};
+  }
+`
+
+const StyledNavbar = styled(Navbar)`
+  background: ${({ theme }) => theme.secondaryBg};
+`
+
+const StyledNav = styled(Nav)`
+  margin-right: 0;
+  margin-left: auto;
+`
+
+const StyledLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem;
+
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    color: ${({ theme }) => theme.headings} !important;
   }
 
-  .navbar {
-    background: var(--bs-primary);
-
-    li:hover {
-      color: var(--bs-white);
-    }
-
-    .navbar-brand {
-      font-size: 1.2rem;
-    }
-
-    .nav-link {
-      color: var(--bs-white);
-    }
-
-    .nav-link__text {
-      margin-left: 0.25rem;
-    }
-
-    .dropdown-item {
-      color: var(--bs-gray);
-      font-weight: bold;
-    }
+  > span {
+    margin-left: 0.25rem;
   }
+`
+
+const StyledNavDropdown = styled(NavDropdown)`
+  > div {
+    background: ${({ theme }) => theme.secondaryBg};
+    border: 1px solid ${({ theme }) => theme.borderColor};
+  }
+
+  > a {
+    color: ${({ theme }) => theme.headings} !important;
+  }
+
+  li:hover {
+    background: ${({ theme }) => theme.secondaryBg};
+  }
+`
+
+const StyledTogglerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem;
 `
 
 export { Header }
